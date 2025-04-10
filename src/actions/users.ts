@@ -130,3 +130,31 @@ export const loginUser = async ({
     };
   }
 };
+
+export const getCurrentUser = async (token: string) => {
+  try {
+    const decoded: any = jwt.verify(token, process.env.JWT_SECRET! as string);
+    const userId = decoded.id;
+
+    const { data, error } = await supabase.from("user_profiles").select("*").eq("id", userId);
+    if (!data || data.length === 0) {
+      return {
+        success: false,
+        message: "User not found",
+      };
+    }
+    return {
+      success: true,
+      message: "User found",
+      data: data[0],
+    };
+
+    
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error.message,
+    };
+    
+  }
+}

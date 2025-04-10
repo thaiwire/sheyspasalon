@@ -52,7 +52,7 @@ function LoginPage() {
         toast.success("Login successful");
         // set cookie
         Cookies.set("token", JSON.stringify(response.data), { expires: 7 });
-        Cookies.set("role", JSON.stringify(values.role), { expires: 7 });
+        Cookies.set("role",values.role);
         // redirect to dashboard
         router.push(`/${values.role}/dashboard`);
       }

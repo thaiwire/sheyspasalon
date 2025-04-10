@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import {Toaster} from 'react-hot-toast';
-
-
+import { Toaster } from "react-hot-toast";
+import LayoutProvider from "@/layout-provider";
 
 export const metadata: Metadata = {
   title: "Shey Salon Spa App(DEV)",
@@ -16,13 +15,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-       
-      >
-        {children}
+      <body>
+        <LayoutProvider>{children}</LayoutProvider>
+
         <Toaster />
       </body>
-      
     </html>
   );
 }
