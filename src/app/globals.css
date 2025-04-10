@@ -125,3 +125,11 @@
   font-family: "montserrat", sans-serif !important;
   font-weight: 500 !important;
 }
+
+.auth-bg{
+  background-image: linear-gradient(to top, #09203f 0%, #537895 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center ;
+  align-items: center;
+}
