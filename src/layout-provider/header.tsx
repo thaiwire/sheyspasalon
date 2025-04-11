@@ -1,9 +1,12 @@
-import { IUser } from "@/interfaces";
+
 import { Menu } from "lucide-react";
 import React from "react";
 import MenuItems from "./menu-items";
+import usersGlobalStore, { IUserGlobalStore } from "@/store/users-global-store";
 
-function Header({ user }: { user: IUser }) {
+function Header() {
+  const {user} = usersGlobalStore() as IUserGlobalStore;
+  
   const [openMenuItems, setOpenMenuItems] = React.useState(false);
 
   return (
@@ -13,9 +16,11 @@ function Header({ user }: { user: IUser }) {
         <h1 className="text-white text-sml">{user?.name}</h1>
         <Menu className="text-orange-500 cursor-pointer"
         size={30}
-        onClick={() => setOpenMenuItems(!openMenuItems)}
+        onClick={() => setOpenMenuItems(true)}
          />
-         {openMenuItems && <MenuItems openMenuItems={openMenuItems} setOpenMenuItems={setOpenMenuItems} user={user} />}
+         {openMenuItems && <MenuItems openMenuItems={openMenuItems} 
+         setOpenMenuItems={setOpenMenuItems}
+        />}
         
       </div>
     </div>

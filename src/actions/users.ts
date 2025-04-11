@@ -133,7 +133,7 @@ export const loginUser = async ({
 
 export const getCurrentUser = async (token: string) => {
   try {
-    console.log("start", token);
+   // console.log("start", token);
 
     const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
     const userId = decoded.id;

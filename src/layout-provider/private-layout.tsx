@@ -2,13 +2,22 @@ import React from "react";
 import Header from "./header";
 import Cookies from "js-cookie";
 import { getCurrentUser } from "@/actions/users";
+import Loader from "@/components/ui/loader";
+import ErrorMessage from "@/components/ui/error-message";
+import { IUserGlobalStore } from "@/store/users-global-store";
+import usersGlobalStore from "@/store/users-global-store";
 
 function PrivateLayout({ children }: { children: React.ReactNode }) {
-  const [user = null, setUser] = React.useState(null);
+
+  const {user, setUser} = usersGlobalStore() as IUserGlobalStore;
+
+  
   const [loading, setloading] = React.useState(false);
   const [error, setError] = React.useState(null);
 
   const fecthUser = async () => {
+    setloading(true);
+  //  console.log("loading",loading);
     try {
       const token: any = Cookies.get("token");
 
@@ -16,12 +25,13 @@ function PrivateLayout({ children }: { children: React.ReactNode }) {
         setError("No token found");
         return;
       }
-      console.log("Token:", token);
+    //  console.log("Token:", token);
 
       const response = await getCurrentUser(token);
       if (response.success) {
+           console.log("User data:", response.data);
         setUser(response.data);
-        console.log("User data:", response.data);
+    
       } else {
         setError(response.message);
         console.error("Error fetching user data:", response.message);
@@ -29,6 +39,8 @@ function PrivateLayout({ children }: { children: React.ReactNode }) {
     } catch (error: any) {
       console.error("Error fetching user data:", error);
       setError(error.message);
+    } finally {
+      setloading(false);
     }
   };
 
@@ -39,21 +51,22 @@ function PrivateLayout({ children }: { children: React.ReactNode }) {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        Loading...
+        <Loader />
       </div>
     );
   }
   if (error) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        Error: {error}
+      <div className="flex items-center justify-center h-screen rounded">
+        <ErrorMessage error={error} />
       </div>
     );
   }
 
   return (
     <div>
-      <Header user={user} />
+      
+      <Header />
       <div className="p-5">{children}</div>
     </div>
   );
