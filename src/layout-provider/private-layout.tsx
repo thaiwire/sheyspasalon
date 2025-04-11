@@ -6,6 +6,8 @@ import Loader from "@/components/ui/loader";
 import ErrorMessage from "@/components/ui/error-message";
 import { IUserGlobalStore } from "@/store/users-global-store";
 import usersGlobalStore from "@/store/users-global-store";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 function PrivateLayout({ children }: { children: React.ReactNode }) {
 
@@ -14,7 +16,8 @@ function PrivateLayout({ children }: { children: React.ReactNode }) {
   
   const [loading, setloading] = React.useState(false);
   const [error, setError] = React.useState(null);
-
+  const router = useRouter();
+  
   const fecthUser = async () => {
     setloading(true);
   //  console.log("loading",loading);
@@ -37,7 +40,10 @@ function PrivateLayout({ children }: { children: React.ReactNode }) {
         console.error("Error fetching user data:", response.message);
       }
     } catch (error: any) {
+      Cookies.remove("token");
+      toast.error("Session expired, please login again");
       console.error("Error fetching user data:", error);
+      router.push("/login");
       setError(error.message);
     } finally {
       setloading(false);

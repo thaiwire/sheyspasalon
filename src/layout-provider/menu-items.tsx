@@ -35,7 +35,7 @@ interface MenuItemsProps {
 
 function MenuItems({ openMenuItems, setOpenMenuItems }: MenuItemsProps) {
   const {user} = usersGlobalStore() as IUserGlobalStore ;
-
+  
   const pathname = usePathname();
   const router = useRouter();
 
@@ -83,7 +83,7 @@ function MenuItems({ openMenuItems, setOpenMenuItems }: MenuItemsProps) {
     },
     {
       title: "Salon & Spa",
-      route: "/salon-spa-owner/salon-spa",
+      route: "/salon-spa-owner/salons-spas",
       icon: <List size={13} />,
     },
     {
@@ -122,6 +122,10 @@ function MenuItems({ openMenuItems, setOpenMenuItems }: MenuItemsProps) {
                      : "text-gray-500"
                  }`}
               key={index}
+              onClick={() => {
+                router.push(item.route);
+                setOpenMenuItems(false);
+              }}
             >
               <div className="text-black">{item.icon}</div>
 
