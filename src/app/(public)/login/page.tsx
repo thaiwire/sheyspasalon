@@ -51,7 +51,7 @@ function LoginPage() {
       if (response.success) {
         toast.success("Login successful");
         // set cookie
-        Cookies.set("token", JSON.stringify(response.data), { expires: 7 });
+        Cookies.set("token",response.data);
         Cookies.set("role",values.role);
         // redirect to dashboard
         router.push(`/${values.role}/dashboard`);

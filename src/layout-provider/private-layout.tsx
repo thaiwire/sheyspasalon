@@ -11,6 +11,13 @@ function PrivateLayout({ children }: { children: React.ReactNode }) {
   const fecthUser = async () => {
     try {
       const token: any = Cookies.get("token");
+
+      if (!token) {
+        setError("No token found");
+        return;
+      }
+      console.log("Token:", token);
+
       const response = await getCurrentUser(token);
       if (response.success) {
         setUser(response.data);
@@ -46,11 +53,8 @@ function PrivateLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <div>
-      <Header
-        user={user}
-        
-       />
-      {children}
+      <Header user={user} />
+      <div className="p-5">{children}</div>
     </div>
   );
 }
